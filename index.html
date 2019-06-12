@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+	<title>Iron Man Dummy</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<script src="jquery-3.4.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<script>
+	let max=14;
+	let line =new Array(max);
+	let count = 1;
+	let cursta = "stop";
+	let linewords=["","According to this paper, we must complete three missions to save those people."
+					,"My wife has one, LP bag, limited edition, but since she loves it, I don’t think she will..."
+					,"Alright, big guy."
+					,"Got a fight, Pepper used one of my suits against me, it was meant to protect her by the way. After she blew up three buildings…"
+					,"You’re welcome, CAPTAIN OBVIOUS. "
+					,"Cool. I think we have to collect all three stones to bring them back."
+					,"I know a company name Dior is one of them. Dior sounds like Hulk, no? Anyway, you’re on, Hulk."
+					,"Here, check this, Friday just print out the data of Dior’s carbon emission. You can charge them 15 Euro per ton. Or charge more so I can buy another limited version LP bag to Pepper."
+					,"Damn, that’s quick."
+					,"Only one euro extra? Just get yourself a burger for your fat dumbass."
+					,"How can we find any product like that? Seriously, how can that be done?"
+					,"Wow, so now you’re the genius? would you tell me how can I get that bag back, please?"
+					,"Great, only problem is how to use this to get the stone."
+					,"I can’t believe that actually works. Those writers must be very lazy."
+				   ];
+	console.log("current line:"+count);
+
+
+	for(i=1;i<=max;i++){
+		line[i] = new Audio("audiolib/"+i+".m4a");
+		line[i].onended = function(){
+			cursta = "stop";
+			document.getElementById("playBtn").disabled = false;
+			document.getElementById("preBtn").disabled = false;
+			document.getElementById("nextBtn").disabled = false;
+			if(count+1>max){
+				count=1;
+				document.getElementById("curNum").innerHTML=count;
+				document.getElementById("linedisplay").innerHTML=linewords[count];
+			}else{
+				count+=1;
+				document.getElementById("curNum").innerHTML=count;
+				document.getElementById("linedisplay").innerHTML=linewords[count];
+			}
+			console.log("current line:"+count);
+			};
+		console.log("Add line:"+i);
+		console.log("source:"+"audiolib/"+i+".m4a");
+	}
+	function saysomething(){
+		line[count].play();
+		cursta = "playing";
+		document.getElementById("playBtn").disabled = true;
+		document.getElementById("preBtn").disabled = true;
+		document.getElementById("nextBtn").disabled = true;
+	}
+	function switchCur(method){
+		switch (method){
+			case "pre":
+				if(count-1<1){
+					count=max;
+					document.getElementById("curNum").innerHTML=count;
+				document.getElementById("linedisplay").innerHTML=linewords[count];
+				}else{
+					count-=1;
+					document.getElementById("curNum").innerHTML=count;
+				document.getElementById("linedisplay").innerHTML=linewords[count];
+				}
+				break;
+			case "next":
+				if(count+1>max){
+					count=1;
+					document.getElementById("curNum").innerHTML=count;
+				document.getElementById("linedisplay").innerHTML=linewords[count];
+				}else{
+					count+=1;
+					document.getElementById("curNum").innerHTML=count;
+				document.getElementById("linedisplay").innerHTML=linewords[count];
+				}
+				break;
+		}
+
+	}
+
+</script>
+<body>
+		<div class="row mt-3 py-3">
+			<div class="col-md-4 offset-md-4 col-12">
+				<span id="playBtn" onclick="saysomething()"><img src="images/ironman.png" class="img-fluid " alt="iron man" ></span>
+			</div>
+		</div>
+		
+		<center>
+		<div class="btn-group">
+			<button id="preBtn" class="btn btn-outline-danger" onclick="switchCur('pre')">PREVIOUS</button>
+			<button id="curNum" class="btn btn-outline-danger" data-toggle="collapse" data-target="#watline" aria-expanded="false" aria-controls="watline">1</button>	
+			<button id="nextBtn" class="btn btn-outline-danger" onclick="switchCur('next')">&nbsp;&nbsp;NEXT&nbsp;&nbsp;</button>
+		</div>
+		<hr>
+		<div class="collapse show my-3 mx-3" id="watline">
+		  <i class="mt-5" id="linedisplay">According to this paper, we must complete three missions to save those people.</i>
+		</div>
+		
+	</center>
+</body>
+</html>
